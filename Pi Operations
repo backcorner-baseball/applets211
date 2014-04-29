@@ -1,0 +1,282 @@
+import java.applet.Applet;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JPanel;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+public class PiOpsApplet extends Applet {
+  
+   Label label1, label2, label3, label4,
+         label5, label6, label7, label8;
+   int min;
+   int max;
+   int median;
+   int Q1;
+   int Q3;
+   double average;
+   double deviation;
+   int mode = 0;
+   int largest;          
+
+   public void init() {
+      setSize(560, 750);
+      setBackground(Color.white);
+      setLayout(new BorderLayout());
+      Panel panel = panel();
+      add(panel, BorderLayout.PAGE_END);
+   }
+   
+   public Panel panel(){
+      Panel panel = new Panel();
+      label1 = new Label();
+      label2 = new Label();
+      label3 = new Label();
+      label4 = new Label();
+      label5 = new Label();
+      label6 = new Label();
+      label7 = new Label();
+      label8 = new Label();
+      
+      label1.setText("The minimum of pi is: " + getMin());
+      label2.setText("The maximum of pi is: " + getMax());
+      label3.setText("The average of pi is: " + getAverage());
+      label4.setText("The standard deviation of pi is: " + getDeviation());
+      label5.setText("The first quartile of pi is: " + getQ1());
+      label6.setText("The median of pi is: " + getMedian());
+      label7.setText("The third quartile of pi is: " + getQ3());
+      label8.setText("The mode of pi is " + getMode() + " and it occurs " + getLargest() + " times.");
+      
+      panel.setLayout(new GridLayout(8, 1));
+      panel.add(label1);
+      panel.add(label2);
+      panel.add(label3);
+      panel.add(label4);
+      panel.add(label5);
+      panel.add(label6);
+      panel.add(label7);
+      panel.add(label8);
+      
+      return panel;
+   }   
+   
+   public ArrayList digitsOfPi(){
+      int piDigits[] = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8,4,1,9,7,1,6,9,3,9,9,3,7,5,1,0,5,8,2,0,9,7,4,9,4,4,5,9,2,3,0,7,8,1,6,4,0,6,2,8,6,2,0,8,9,9,8,6,2,8,0,3,4,8,2,5,3,4,2,1,1,7,0,6,7,9,8,2,1,4,8,0,8,6,5,1,3,2,8,2,3,0,6,6,4,7,0,9,3,8,4,4,6,0,9,5,5,0,5,8,2,2,3,1,7,2,5,3,5,9,4,0,8,1,2,8,4,8,1,1,1,7,4,5,0,2,8,4,1,0,2,7,0,1,9,3,8,5,2,1,1,0,5,5,5,9,6,4,4,6,2,2,9,4,8,9,5,4,9,3,0,3,8,1,9,6,4,4,2,8,8,1,0,9,7,5,6,6,5,9,3,3,4,4,6,1,2,8,4,7,5,6,4,8,2,3,3,7,8,6,7,8,3,1,6,5,2,7,1,2,0,1,9,0,9,1,4,5,6,4,8,5,6,6,9,2,3,4,6,0,3,4,8,6,1,0,4,5,4,3,2,6,6,4,8,2,1,3,3,9,3,6,0,7,2,6,0,2,4,9,1,4,1,2,7,3,7,2,4,5,8,7,0,0,6,6,0,6,3,1,5,5,8,8,1,7,4,8,8,1,5,2,0,9,2,0,9,6,2,8,2,9,2,5,4,0,9,1,7,1,5,3,6,4,3,6,7,8,9,2,5,9,0,3,6,0,0,1,1,3,3,0,5,3,0,5,4,8,8,2,0,4,6,6,5,2,1,3,8,4,1,4,6,9,5,1,9,4,1,5,1,1,6,0,9,4,3,3,0,5,7,2,7,0,3,6,5,7,5,9,5,9,1,9,5,3,0,9,2,1,8,6,1,1,7,3,8,1,9,3,2,6,1,1,7,9,3,1,0,5,1,1,8,5,4,8,0,7,4,4,6,2,3,7,9,9,6,2,7,4,9,5,6,7,3,5,1,8,8,5,7,5,2,7,2,4,8,9,1,2,2,7,9,3,8,1,8,3,0,1,1,9,4,9,1,2};
+      ArrayList<Integer> digitsOfPi = new ArrayList<Integer>();
+      
+      for (int index = 0; index < piDigits.length; index++){
+         digitsOfPi.add(piDigits[index]);
+      }
+      return digitsOfPi;
+   }
+   
+   public ArrayList sortedDigits(){
+      int piDigits[] = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8,4,1,9,7,1,6,9,3,9,9,3,7,5,1,0,5,8,2,0,9,7,4,9,4,4,5,9,2,3,0,7,8,1,6,4,0,6,2,8,6,2,0,8,9,9,8,6,2,8,0,3,4,8,2,5,3,4,2,1,1,7,0,6,7,9,8,2,1,4,8,0,8,6,5,1,3,2,8,2,3,0,6,6,4,7,0,9,3,8,4,4,6,0,9,5,5,0,5,8,2,2,3,1,7,2,5,3,5,9,4,0,8,1,2,8,4,8,1,1,1,7,4,5,0,2,8,4,1,0,2,7,0,1,9,3,8,5,2,1,1,0,5,5,5,9,6,4,4,6,2,2,9,4,8,9,5,4,9,3,0,3,8,1,9,6,4,4,2,8,8,1,0,9,7,5,6,6,5,9,3,3,4,4,6,1,2,8,4,7,5,6,4,8,2,3,3,7,8,6,7,8,3,1,6,5,2,7,1,2,0,1,9,0,9,1,4,5,6,4,8,5,6,6,9,2,3,4,6,0,3,4,8,6,1,0,4,5,4,3,2,6,6,4,8,2,1,3,3,9,3,6,0,7,2,6,0,2,4,9,1,4,1,2,7,3,7,2,4,5,8,7,0,0,6,6,0,6,3,1,5,5,8,8,1,7,4,8,8,1,5,2,0,9,2,0,9,6,2,8,2,9,2,5,4,0,9,1,7,1,5,3,6,4,3,6,7,8,9,2,5,9,0,3,6,0,0,1,1,3,3,0,5,3,0,5,4,8,8,2,0,4,6,6,5,2,1,3,8,4,1,4,6,9,5,1,9,4,1,5,1,1,6,0,9,4,3,3,0,5,7,2,7,0,3,6,5,7,5,9,5,9,1,9,5,3,0,9,2,1,8,6,1,1,7,3,8,1,9,3,2,6,1,1,7,9,3,1,0,5,1,1,8,5,4,8,0,7,4,4,6,2,3,7,9,9,6,2,7,4,9,5,6,7,3,5,1,8,8,5,7,5,2,7,2,4,8,9,1,2,2,7,9,3,8,1,8,3,0,1,1,9,4,9,1,2};
+      ArrayList<Integer> digitsOfPi = digitsOfPi();
+      ArrayList<Integer> sortedDigitsOfPi = new ArrayList<Integer>();
+ 
+      Arrays.sort(piDigits);
+      for (int index2 = 0; index2 < piDigits.length; index2++){
+         sortedDigitsOfPi.add(piDigits[index2]);
+      }
+      
+      return sortedDigitsOfPi;
+   }
+   
+   public int getMin(){
+      int min;
+      ArrayList<Integer> array = sortedDigits();
+      min = array.get(0);
+      return min;
+   }
+   
+   public int getMax(){
+      int max;
+      ArrayList<Integer> array = sortedDigits();
+      max = array.get(array.size()-1);
+      return max;
+   }
+   
+   public int getQ1(){
+      int Q1;
+      ArrayList<Integer> array = sortedDigits();
+      Q1 = array.get((array.size()-1)/4);
+      return Q1;
+   }
+   
+   public int getMedian(){
+      int median;
+      ArrayList<Integer> array = sortedDigits();
+      median = array.get((array.size()-1)/2);
+      return median;
+   }
+   
+   public int getQ3(){
+      int Q3;
+      ArrayList<Integer> array = sortedDigits();
+      Q3 = array.get(3*((array.size()-1)/4));
+      return Q3;
+   }
+   
+   public double getAverage(){
+      double sum = 0;
+      double average;
+      ArrayList<Integer> array = digitsOfPi();
+      for (int i = 0; i < array.size(); i++)
+         sum = sum + array.get(i);
+      average = sum / array.size();
+      return average;
+   }
+    
+   public double getDeviation(){
+      double variance = 0;
+      double deviation;
+      ArrayList<Integer> array = digitsOfPi();
+      for (int i = 0; i < array.size(); i++){
+         variance = Math.pow((average - array.get(i)), 2);
+         }
+      deviation = variance / array.size();
+      return deviation;
+   }
+   
+   public ArrayList getSizes(){
+   
+      ArrayList<Integer> digitsOfPi = digitsOfPi();
+      ArrayList<Integer> sizes = new ArrayList<Integer>();
+      ArrayList<Integer> zero = new ArrayList<Integer>();
+      ArrayList<Integer> one = new ArrayList<Integer>();
+      ArrayList<Integer> two = new ArrayList<Integer>();
+      ArrayList<Integer> three = new ArrayList<Integer>();
+      ArrayList<Integer> four = new ArrayList<Integer>();
+      ArrayList<Integer> five = new ArrayList<Integer>();
+      ArrayList<Integer> six = new ArrayList<Integer>();
+      ArrayList<Integer> seven = new ArrayList<Integer>();
+      ArrayList<Integer> eight = new ArrayList<Integer>();
+      ArrayList<Integer> nine = new ArrayList<Integer>();
+      
+      for (int a = 0; a < digitsOfPi.size(); a++){
+         if (digitsOfPi.get(a) == 0)
+            zero.add(a);
+         else if (digitsOfPi.get(a) == 1)      
+            one.add(a);
+         else if (digitsOfPi.get(a) == 2)      
+            two.add(a);
+         else if (digitsOfPi.get(a) == 3)      
+            three.add(a);
+         else if (digitsOfPi.get(a) == 4)      
+            four.add(a);
+         else if (digitsOfPi.get(a) == 5)      
+            five.add(a);
+         else if (digitsOfPi.get(a) == 6)      
+            six.add(a);
+         else if (digitsOfPi.get(a) == 7)      
+            seven.add(a);
+         else if (digitsOfPi.get(a) == 8)      
+            eight.add(a);
+         else if (digitsOfPi.get(a) == 9)      
+            nine.add(a);
+         }
+         
+         sizes.add(zero.size());
+         sizes.add(one.size());
+         sizes.add(two.size());
+         sizes.add(three.size());
+         sizes.add(four.size());
+         sizes.add(five.size());
+         sizes.add(six.size());
+         sizes.add(seven.size());
+         sizes.add(eight.size());
+         sizes.add(nine.size());
+         
+         return sizes;  
+   }
+   
+   public int getMode(){
+      ArrayList<Integer> array = getSizes();
+      int mode = 0;
+      int largest = array.get(0);
+      for (int j = 0; j < array.size(); j++){
+         if(array.get(j) > largest){
+            largest = array.get(j);
+            mode = j;
+         }
+      }
+      return mode;
+   }
+   
+   public int getLargest(){
+      ArrayList<Integer> array = getSizes();
+      int mode;
+      int largest = array.get(0);
+      for (int j = 0; j < array.size(); j++){
+         if(array.get(j) > largest){
+            largest = array.get(j);
+            mode = j;
+         }
+      }
+      return largest;
+   }          
+
+   public void paint( Graphics g ) {
+      Graphics2D g2 = (Graphics2D) g;
+      ArrayList<Integer> sizes = getSizes();
+      g2.setStroke(new BasicStroke(25.0f));
+      g2.setColor(Color.BLUE);
+      g2.drawLine(100, 550, 100, (550 - (5*sizes.get(0))));
+      g2.setColor(Color.ORANGE);
+      g2.drawLine(140, 550, 140, (550 - (5*sizes.get(1))));
+      g2.setColor(Color.BLUE);
+      g2.drawLine(180, 550, 180, (550 - (5*sizes.get(2))));
+      g2.setColor(Color.ORANGE);
+      g2.drawLine(220, 550, 220, (550 - (5*sizes.get(3))));
+      g2.setColor(Color.BLUE);
+      g2.drawLine(260, 550, 260, (550 - (5*sizes.get(4))));
+      g2.setColor(Color.ORANGE);
+      g2.drawLine(300, 550, 300, (550 - (5*sizes.get(5))));
+      g2.setColor(Color.BLUE);
+      g2.drawLine(340, 550, 340, (550 - (5*sizes.get(6))));
+      g2.setColor(Color.ORANGE);
+      g2.drawLine(380, 550, 380, (550 - (5*sizes.get(7))));
+      g2.setColor(Color.BLUE);
+      g2.drawLine(420, 550, 420, (550 - (5*sizes.get(8))));
+      g2.setColor(Color.ORANGE);
+      g2.drawLine(460, 550, 460, (550 - (5*sizes.get(9))));
+      g2.setStroke(new BasicStroke(3.0f));
+      g2.setColor(Color.BLACK);
+      g2.drawLine(50, 200, 50, 563);
+      g2.drawLine(50, 563, 500, 563);
+      g2.setColor(Color.DARK_GRAY);
+      g2.setFont(new Font("SansSerif", Font.PLAIN, 24));
+      g2.drawString("Frequency of Integers in Pi", 115, 100);
+      g2.setColor(Color.BLACK);
+      g2.setFont(new Font("SansSerif", Font.PLAIN, 17));
+      g2.drawString("0", 95, 582);
+      g2.drawString("1", 135, 582);
+      g2.drawString("2", 175, 582);
+      g2.drawString("3", 215, 582);
+      g2.drawString("4", 255, 582);
+      g2.drawString("5", 295, 582);
+      g2.drawString("6", 335, 582);
+      g2.drawString("7", 375, 582);
+      g2.drawString("8", 415, 582);
+      g2.drawString("9", 455, 582);
+      g2.setColor(Color.RED);
+      g2.drawString(String.valueOf(sizes.get(0)), 90, (530 - (5*sizes.get(0))));
+      g2.drawString(String.valueOf(sizes.get(1)), 130, (530 - (5*sizes.get(1))));
+      g2.drawString(String.valueOf(sizes.get(2)), 170, (530 - (5*sizes.get(2))));
+      g2.drawString(String.valueOf(sizes.get(3)), 210, (530 - (5*sizes.get(3))));
+      g2.drawString(String.valueOf(sizes.get(4)), 250, (530 - (5*sizes.get(4))));
+      g2.drawString(String.valueOf(sizes.get(5)), 290, (530 - (5*sizes.get(5))));
+      g2.drawString(String.valueOf(sizes.get(6)), 330, (530 - (5*sizes.get(6))));
+      g2.drawString(String.valueOf(sizes.get(7)), 370, (530 - (5*sizes.get(7))));
+      g2.drawString(String.valueOf(sizes.get(8)), 410, (530 - (5*sizes.get(8))));
+      g2.drawString(String.valueOf(sizes.get(9)), 450, (530 - (5*sizes.get(9))));
+   }
+}
